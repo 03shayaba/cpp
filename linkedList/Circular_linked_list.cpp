@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 using namespace std;
 class Node
 {
@@ -95,12 +96,42 @@ void deleteNode(Node *&tail, int value)
         delete curr;
     }
 }
+
+bool isCirculer( Node* head){
+    if(head == NULL){
+        return NULL;
+    }
+    Node* temp = head -> next;
+    while(temp != NULL && temp != head){
+        temp = temp -> next;
+    }
+
+    if(temp == head){
+        return true;
+    }
+    return false;
+}
+
+bool detectLoop(Node* head){
+    if(head == NULL)
+        return false;
+    map<Node*, bool> visited;
+    Node* temp= head;
+    while(temp != NULL){
+        if(visited[temp] == true){
+            return 1;
+        }
+        visited[temp] = true;
+        temp = temp->next;
+    }
+
+}
 int main()
 {
     Node *tail = NULL;
     insertNode(tail, 5, 3);
     print(tail);
-    // insertNode(tail, 3, 5);
+    insertNode(tail, 3, 5);
     // print(tail);
     // insertNode(tail, 5, 7);
     // print(tail);
@@ -112,6 +143,14 @@ int main()
     // print(tail);
     // cout << tail->data << endl;
    
-    deleteNode(tail, 3);
+    // deleteNode(tail, 3);
     print(tail);
+    // if(isCirculer(tail)){
+    //     cout<<"linked list is circuler in nature"<<endl;
+    // }
+    // else{
+    //     cout<<"not";
+    // }
+  
+
 }
