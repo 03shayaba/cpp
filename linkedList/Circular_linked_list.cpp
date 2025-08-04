@@ -95,37 +95,65 @@ void deleteNode(Node *&tail, int value)
         curr->next = NULL;
         delete curr;
     }
-}
-
-bool isCirculer( Node* head){
-    if(head == NULL){
-        return NULL;
-    }
-    Node* temp = head -> next;
-    while(temp != NULL && temp != head){
-        temp = temp -> next;
-    }
-
-    if(temp == head){
-        return true;
-    }
-    return false;
-}
-
-bool detectLoop(Node* head){
-    if(head == NULL)
-        return false;
-    map<Node*, bool> visited;
-    Node* temp= head;
-    while(temp != NULL){
-        if(visited[temp] == true){
-            return 1;
-        }
-        visited[temp] = true;
-        temp = temp->next;
-    }
 
 }
+
+void splitList(Node* head , Node** head1 , Node**head2){
+    if(head == NULL) return ;
+
+    Node* slow = head;
+    Node* fast = head;
+    // Use slow-fast to find middle
+    while (fast->next != head && fast->next->next != head) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    // For even nodes, move fast one more step
+    if (fast->next->next == head)
+        fast = fast->next;
+
+    // Set heads of the two halves
+    *head1 = head;
+    *head2 = slow->next;
+
+    // Make first half circular
+    slow->next = *head1;
+
+    // Make second half circular
+    fast->next = *head2;
+
+}
+
+// bool isCirculer( Node* head){
+//     if(head == NULL){
+//         return NULL;
+//     }
+//     Node* temp = head -> next;
+//     while(temp != NULL && temp != head){
+//         temp = temp -> next;
+//     }
+
+//     if(temp == head){
+//         return true;
+//     }
+//     return false;
+// }
+
+// bool detectLoop(Node* head){
+//     if(head == NULL)
+//         return false;
+//     map<Node*, bool> visited;
+//     Node* temp= head;
+//     while(temp != NULL){
+//         if(visited[temp] == true){
+//             return 1;
+//         }
+//         visited[temp] = true;
+//         temp = temp->next;
+//     }
+
+// }
 int main()
 {
     Node *tail = NULL;
@@ -133,10 +161,10 @@ int main()
     print(tail);
     insertNode(tail, 3, 5);
     // print(tail);
-    // insertNode(tail, 5, 7);
+    insertNode(tail, 5, 7);
     // print(tail);
-    // insertNode(tail, 7, 8);
-    // print(tail);
+    insertNode(tail, 7, 8);
+    print(tail);
     // insertNode(tail, 8, 9);
     // print(tail);
     // insertNode(tail, 3, 4);
@@ -144,13 +172,25 @@ int main()
     // cout << tail->data << endl;
    
     // deleteNode(tail, 3);
-    print(tail);
+    // print(tail);
     // if(isCirculer(tail)){
     //     cout<<"linked list is circuler in nature"<<endl;
     // }
     // else{
     //     cout<<"not";
     // }
-  
+   Node* head1 = NULL;
+    Node* head2 = NULL;
+
+    splitList(tail->next, &head1, &head2);
+
+    cout << "First half: ";
+    print(head1);
+    cout<<"head1 is "<<head1->data <<endl;
+
+    cout << "Second half: ";
+    print(head2);
+    cout<<"head2 is "<<head2->data;
+
 
 }
