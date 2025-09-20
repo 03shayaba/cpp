@@ -19,6 +19,12 @@ class Stack{
 
 void push(int val){
     Node* newNode = new Node(val);
+
+    // base condition 
+
+    if(newNode == NULL){
+        cout<<"Stack is overFlow \n";
+    }
     newNode->next = top ;
     top = newNode;
 }
